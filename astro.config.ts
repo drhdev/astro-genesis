@@ -10,6 +10,7 @@ import {
 } from 'astro/config';
 
 const site = process.env.SITE ?? 'https://astro-genesis.example.com';
+const isDevCommand = process.argv.some((arg) => arg.includes('dev'));
 
 export default defineConfig({
   site,
@@ -109,19 +110,21 @@ export default defineConfig({
     checkOrigin: true,
     actionBodySizeLimit: 64 * 1024,
     serverIslandBodySizeLimit: 64 * 1024,
-    csp: {
-      algorithm: 'SHA-256',
-      directives: [
-        "default-src 'self'",
-        "base-uri 'self'",
-        "connect-src 'self'",
-        "font-src 'self' data:",
-        "form-action 'self'",
-        "frame-ancestors 'none'",
-        "img-src 'self' data: https://images.unsplash.com",
-        "object-src 'none'",
-      ],
-    },
+    csp: isDevCommand
+      ? false
+      : {
+          algorithm: 'SHA-256',
+          directives: [
+            "default-src 'self'",
+            "base-uri 'self'",
+            "connect-src 'self'",
+            "font-src 'self' data:",
+            "form-action 'self'",
+            "frame-ancestors 'none'",
+            "img-src 'self' data: https://images.unsplash.com",
+            "object-src 'none'",
+          ],
+        },
   },
   experimental: {
     svgOptimizer: svgoOptimizer(),

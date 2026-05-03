@@ -36,6 +36,10 @@ const description = 'Astro 6.2 feature adoption decisions for this template.';
           Node standalone adapter, Docker, GitHub Actions, and Dependabot
           groups.
         </li>
+        <li>
+          CSP is disabled in dev mode because Astro 6 CSP is not supported with
+          the Vite dev server; production builds keep CSP enabled.
+        </li>
       </ul>
       <h2>Deferred</h2>
       <p>

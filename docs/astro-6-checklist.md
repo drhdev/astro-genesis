@@ -24,6 +24,7 @@ Checked on 2026-05-03 against official Astro documentation and release notes.
 - Astro 6.2 optional JSON logger via `ASTRO_JSON_LOGS=1`.
 - Astro 6.2 `compressHTML: "jsx"` option.
 - `server.allowedHosts` configured for local and Codespaces-style preview hosts.
+- CSP is disabled in `astro dev` because Astro 6 CSP is not supported with the Vite dev server. Production builds and previews keep CSP enabled.
 
 ## Deliberately not defaulted
 
