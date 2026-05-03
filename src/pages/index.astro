@@ -1,0 +1,47 @@
+---
+export const prerender = true;
+
+import BlogTeaser from '@components/widgets/BlogTeaser.astro';
+import CTA from '@components/widgets/CTA.astro';
+import CreationTimeline from '@components/widgets/CreationTimeline.astro';
+import FeatureGrid from '@components/widgets/FeatureGrid.astro';
+import Hero from '@components/widgets/Hero.astro';
+import ServerTime from '@components/widgets/ServerTime.astro';
+import WidgetShowcase from '@components/widgets/WidgetShowcase.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getFeaturedPosts } from '@lib/content';
+import { webPageSchema } from '@lib/seo';
+
+const posts = await getFeaturedPosts();
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<BaseLayout
+  title="Astro Genesis"
+  description="A production-ready Astro 6 template for static and dynamic websites."
+  jsonLd={webPageSchema({
+    title: 'Astro Genesis',
+    description:
+      'A production-ready Astro 6 template for static and dynamic websites.',
+    url,
+  })}
+>
+  <Hero />
+  <FeatureGrid />
+  <CreationTimeline />
+  <section class="bg-white py-16 dark:bg-zinc-950">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <ServerTime server:defer>
+        <div
+          slot="fallback"
+          class="rounded-md border border-slate-950/10 bg-slate-50 p-5 text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300"
+        >
+          Loading server island...
+        </div>
+      </ServerTime>
+    </div>
+  </section>
+  <WidgetShowcase />
+  <BlogTeaser posts={posts} />
+  <CTA />
+</BaseLayout>

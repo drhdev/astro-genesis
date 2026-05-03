@@ -1,0 +1,46 @@
+---
+export const prerender = true;
+
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageSchema } from '@lib/seo';
+
+const title = 'About the template';
+const description =
+  'Why Astro Genesis uses the creation story as its demo content and Astro 6 as its architecture.';
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={webPageSchema({ title, description, url })}
+>
+  <section class="bg-white py-16 dark:bg-zinc-950">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[{ label: 'About' }]} />
+      <div class="mt-8">
+        <SectionHeader
+          eyebrow="Purpose"
+          title={title}
+          description={description}
+        />
+      </div>
+      <div class="prose mt-10">
+        <p>
+          Astro Genesis treats the Genesis creation narrative as demo content,
+          not as framework code. The structure is intended to survive across
+          projects while content collections, navigation data, theme settings,
+          and page copy can be replaced cleanly.
+        </p>
+        <p>
+          The design takes cues from AstroWind: fast pages, content-rich
+          sections, strong SEO defaults, restrained Tailwind styling, and a
+          practical component library. The implementation is updated for Astro 6
+          and Tailwind 4.
+        </p>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

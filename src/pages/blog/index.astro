@@ -1,0 +1,51 @@
+---
+export const prerender = true;
+
+import BlogCard from '@components/blog/BlogCard.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getAllTags, getPublishedPosts } from '@lib/content';
+import { webPageSchema } from '@lib/seo';
+
+const title = 'Genesis journal';
+const description =
+  'MDX demo posts showing Astro content collections, tags, RSS, and article SEO.';
+const posts = await getPublishedPosts();
+const tags = await getAllTags();
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={webPageSchema({ title, description, url })}
+>
+  <section class="bg-slate-100 py-16 dark:bg-zinc-900">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[{ label: 'Blog' }]} />
+      <div class="mt-8">
+        <SectionHeader
+          eyebrow="Content collections"
+          title={title}
+          description={description}
+        />
+      </div>
+      <div class="mt-8 flex flex-wrap gap-2">
+        {
+          tags.map((tag) => (
+            <a
+              href={`/tags/${tag}`}
+              class="rounded-full bg-white px-3 py-1.5 text-sm font-bold text-slate-700 no-underline dark:bg-zinc-950 dark:text-slate-200"
+            >
+              {tag}
+            </a>
+          ))
+        }
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => <BlogCard post={post} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

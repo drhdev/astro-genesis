@@ -1,0 +1,42 @@
+---
+export const prerender = true;
+
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import CTA from '@components/widgets/CTA.astro';
+import FeatureMatrix from '@components/widgets/FeatureMatrix.astro';
+import WidgetShowcase from '@components/widgets/WidgetShowcase.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageSchema } from '@lib/seo';
+
+const title = 'Widget library';
+const description =
+  'Common Astro website widgets implemented as reusable, documented components.';
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={webPageSchema({ title, description, url })}
+>
+  <section class="bg-slate-100 py-16 dark:bg-zinc-900">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[{ label: 'Widgets' }]} />
+      <div class="mt-8">
+        <SectionHeader
+          eyebrow="Components"
+          title={title}
+          description={description}
+        />
+      </div>
+    </div>
+  </section>
+  <WidgetShowcase />
+  <section class="bg-slate-100 py-20 dark:bg-zinc-900">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <FeatureMatrix />
+    </div>
+  </section>
+  <CTA />
+</BaseLayout>

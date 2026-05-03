@@ -1,0 +1,76 @@
+---
+export const prerender = true;
+
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const title = 'Astro 6 checklist';
+const description = 'Astro 6.2 feature adoption decisions for this template.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="bg-white py-16 dark:bg-zinc-950">
+    <div class="prose mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs
+        items={[{ label: 'Docs', href: '/docs' }, { label: title }]}
+      />
+      <h1>{title}</h1>
+      <p>
+        Checked on 2026-05-03 against official Astro documentation and release
+        notes.
+      </p>
+      <h2>Adopted</h2>
+      <ul>
+        <li>Astro 6.2 with server output and explicit prerendering.</li>
+        <li>Tailwind CSS 4 through the official Vite plugin path.</li>
+        <li>Content Collections, MDX, RSS, sitemap, robots, and JSON-LD.</li>
+        <li>
+          Live Content Collections, Server Islands, Actions, Sessions,
+          Middleware, and API routes.
+        </li>
+        <li>
+          Fonts API, CSP API, prefetch, image defaults, SVG optimizer, and
+          optional JSON logging.
+        </li>
+        <li>
+          Node standalone adapter, Docker, GitHub Actions, and Dependabot
+          groups.
+        </li>
+      </ul>
+      <h2>Deferred</h2>
+      <p>
+        Experimental route caching, queued rendering, and client-side view
+        transitions are documented but not enabled by default because they
+        depend on hosting, traffic behavior, and CSP requirements.
+      </p>
+      <h2>Sources</h2>
+      <ul>
+        <li>
+          <a href="https://astro.build/blog/astro-620/"
+            >Astro 6.2 release notes</a
+          >
+        </li>
+        <li>
+          <a href="https://astro.build/blog/astro-6/">Astro 6.0 release notes</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://docs.astro.build/en/reference/configuration-reference/"
+            >Astro configuration reference</a
+          >
+        </li>
+        <li>
+          <a href="https://docs.astro.build/en/guides/content-collections/"
+            >Astro Content Collections</a
+          >
+        </li>
+        <li>
+          <a href="https://github.com/arthelokyo/astrowind"
+            >AstroWind reference</a
+          >
+        </li>
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

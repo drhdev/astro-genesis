@@ -1,0 +1,30 @@
+---
+const visits = (await Astro.session?.get('visits')) ?? 0;
+const focus = (await Astro.session?.get('creationFocus')) ?? 'light';
+const lastVisit = await Astro.session?.get('lastVisit');
+---
+
+<aside
+  class="rounded-md border border-indigo-500/30 bg-indigo-50 p-6 text-indigo-950 dark:bg-indigo-950/30 dark:text-indigo-50"
+>
+  <p class="text-xs font-bold uppercase">Session demo</p>
+  <h2 class="mt-2 font-serif text-2xl font-bold">
+    State without a client framework
+  </h2>
+  <dl class="mt-5 grid gap-3 sm:grid-cols-3">
+    <div>
+      <dt class="text-xs font-bold uppercase opacity-70">Visits</dt>
+      <dd class="mt-1 text-2xl font-black">{visits}</dd>
+    </div>
+    <div>
+      <dt class="text-xs font-bold uppercase opacity-70">Focus</dt>
+      <dd class="mt-1 text-2xl font-black capitalize">{focus}</dd>
+    </div>
+    <div>
+      <dt class="text-xs font-bold uppercase opacity-70">Last visit</dt>
+      <dd class="mt-1 text-sm font-bold">
+        {lastVisit ? lastVisit.toLocaleTimeString('en') : 'New'}
+      </dd>
+    </div>
+  </dl>
+</aside>

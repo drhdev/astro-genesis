@@ -1,0 +1,36 @@
+---
+title: Rest as a performance budget
+description: How the seventh day maps to maintainability, caching, minimal JavaScript, and a calm production surface.
+pubDate: 2026-04-24
+updatedDate: 2026-04-30
+author: Genesis Editorial
+tags:
+  - performance
+  - deployment
+  - genesis
+featured: true
+image:
+  src: https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1400&q=80
+  alt: A quiet sunrise over layered hills
+---
+
+import Callout from '@components/ui/Callout.astro';
+
+## Completion is a technical feature
+
+The seventh day is not an absence of work. It is the proof that the system is complete enough to stop adding machinery. Good templates should feel the same way: enough features to demonstrate the platform, but not so many abstractions that a real team must fight them.
+
+Astro Genesis keeps JavaScript local to features that need it: menus, tabs, dark mode, and server-rendered interactions. The core pages remain mostly HTML and CSS.
+
+## Caching by default
+
+Static routes are prerendered. Blog pages are generated from content collections. Dynamic routes exist where request context matters. Server islands let a static shell stay fast while personalized content arrives separately.
+
+<Callout title="Operational test" tone="teal">
+  If a feature cannot explain why it needs runtime behavior, it should probably
+  be static.
+</Callout>
+
+## Deployment rest
+
+The Docker build produces a standalone Node runtime. CI runs type checks and builds on every pull request. Dependabot groups Astro and Tailwind upgrades so framework changes arrive in reviewable batches.

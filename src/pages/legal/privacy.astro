@@ -1,0 +1,23 @@
+---
+export const prerender = true;
+
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const title = 'Privacy policy';
+const description = 'A placeholder privacy page for production templates.';
+---
+
+<BaseLayout title={title} description={description} noindex>
+  <section class="bg-white py-16 dark:bg-zinc-950">
+    <div class="prose mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[{ label: 'Legal' }, { label: 'Privacy' }]} />
+      <h1>{title}</h1>
+      <p>
+        Replace this placeholder with legal text for your jurisdiction and data
+        processing model before production use. The template itself stores only
+        a demonstration session value when dynamic pages or actions are used.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

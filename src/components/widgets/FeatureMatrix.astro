@@ -1,0 +1,51 @@
+---
+const rows = [
+  [
+    'Static pages',
+    'Prerendered routes for marketing, docs, blog, legal, and tag pages.',
+  ],
+  [
+    'Dynamic pages',
+    'SSR routes for sessions, request-aware UI, live content, and JSON endpoints.',
+  ],
+  [
+    'SEO',
+    'Canonical URLs, Open Graph, Twitter cards, JSON-LD, RSS, robots, and sitemap integration.',
+  ],
+  [
+    'Security',
+    'Astro CSP API, origin checks, headers, body limits, and Docker runtime defaults.',
+  ],
+  [
+    'Updates',
+    'Dependabot groups, CI, upgrade script, and docs that separate template and content concerns.',
+  ],
+];
+---
+
+<div
+  class="overflow-hidden rounded-md border border-slate-950/10 bg-white dark:border-white/10 dark:bg-zinc-900"
+>
+  <table class="w-full border-collapse text-left text-sm">
+    <thead class="bg-slate-100 text-slate-950 dark:bg-white/10 dark:text-white">
+      <tr>
+        <th class="px-5 py-4 font-bold">Capability</th>
+        <th class="px-5 py-4 font-bold">Implementation</th>
+      </tr>
+    </thead>
+    <tbody class="divide-y divide-slate-950/10 dark:divide-white/10">
+      {
+        rows.map(([capability, implementation]) => (
+          <tr>
+            <th class="px-5 py-4 align-top font-bold text-slate-950 dark:text-white">
+              {capability}
+            </th>
+            <td class="px-5 py-4 leading-6 text-slate-600 dark:text-slate-300">
+              {implementation}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</div>

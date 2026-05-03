@@ -1,0 +1,28 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BlogCard from '@components/blog/BlogCard.astro';
+import Button from '@components/ui/Button.astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
+}
+
+const { posts } = Astro.props;
+---
+
+<section class="bg-slate-100 py-20 dark:bg-zinc-900">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+      <SectionHeader
+        eyebrow="Blog"
+        title="Demo posts with MDX and typed frontmatter"
+        description="The blog proves content collections, tags, RSS, sitemap generation, and article SEO in one place."
+      />
+      <Button href="/blog" variant="ghost">All posts</Button>
+    </div>
+    <div class="mt-12 grid gap-6 md:grid-cols-3">
+      {posts.map((post) => <BlogCard post={post} />)}
+    </div>
+  </div>
+</section>

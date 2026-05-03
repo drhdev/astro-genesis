@@ -1,0 +1,56 @@
+---
+import Button from '@components/ui/Button.astro';
+import { creationDays } from '@data/creation';
+---
+
+<section class="relative isolate overflow-hidden bg-slate-950 text-white">
+  <img
+    src="https://images.unsplash.com/photo-1462331940025-496dfbfc7564?auto=format&fit=crop&w=2200&q=80"
+    alt="A luminous field of stars and cosmic dust"
+    class="absolute inset-0 -z-20 h-full w-full object-cover"
+    fetchpriority="high"
+  />
+  <div class="absolute inset-0 -z-10 bg-slate-950/65"></div>
+  <div
+    class="mx-auto grid min-h-[78vh] max-w-7xl items-center gap-10 px-4 py-24 sm:px-6 lg:grid-cols-[1.1fr_0.9fr] lg:px-8"
+  >
+    <div>
+      <p class="text-sm font-bold uppercase text-teal-200">
+        Astro 6.2 production template
+      </p>
+      <h1
+        class="mt-5 max-w-4xl font-serif text-5xl font-bold leading-[0.98] sm:text-6xl lg:text-7xl"
+      >
+        Astro Genesis
+      </h1>
+      <p class="mt-6 max-w-2xl text-lg leading-8 text-slate-100">
+        A content-first Astro template that demonstrates static generation,
+        server rendering, live content, actions, sessions, SEO, dark mode, and
+        Docker deployment through the creation narrative.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <Button href="/features">Explore features</Button>
+        <Button href="/docs" variant="ghost">Read docs</Button>
+      </div>
+    </div>
+
+    <div class="grid gap-3">
+      {
+        creationDays.slice(0, 4).map((item) => (
+          <a
+            href={item.href}
+            class="group rounded-md border border-white/15 bg-white/10 p-4 no-underline backdrop-blur transition hover:bg-white/18"
+          >
+            <p class="text-xs font-bold uppercase text-teal-200">
+              Day {item.day}
+            </p>
+            <h2 class="mt-2 font-serif text-xl font-bold text-white">
+              {item.title}
+            </h2>
+            <p class="mt-2 text-sm leading-6 text-slate-200">{item.summary}</p>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

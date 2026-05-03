@@ -1,0 +1,63 @@
+---
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import ServerTime from '@components/widgets/ServerTime.astro';
+import SessionPanel from '@components/widgets/SessionPanel.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageSchema } from '@lib/seo';
+
+const title = 'Dynamic SSR demo';
+const description =
+  'Request-aware Astro rendering with middleware, sessions, server islands, and API routes.';
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+const userAgent = Astro.request.headers.get('user-agent') ?? 'Unknown';
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={webPageSchema({ title, description, url })}
+>
+  <section class="bg-slate-100 py-16 dark:bg-zinc-900">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs items={[{ label: 'Dynamic' }]} />
+      <div class="mt-8">
+        <SectionHeader eyebrow="SSR" title={title} description={description} />
+      </div>
+      <div class="mt-10 grid gap-6 lg:grid-cols-2">
+        <SessionPanel />
+        <ServerTime server:defer>
+          <div
+            slot="fallback"
+            class="rounded-md border border-slate-950/10 bg-white p-5 text-slate-600 dark:border-white/10 dark:bg-zinc-950 dark:text-slate-300"
+          >
+            Loading delayed server island...
+          </div>
+        </ServerTime>
+      </div>
+      <div
+        class="mt-6 rounded-md border border-slate-950/10 bg-white p-6 dark:border-white/10 dark:bg-zinc-950"
+      >
+        <h2
+          class="font-serif text-2xl font-bold text-slate-950 dark:text-white"
+        >
+          Request context
+        </h2>
+        <dl class="mt-5 grid gap-4 text-sm sm:grid-cols-2">
+          <div>
+            <dt class="font-bold text-slate-950 dark:text-white">Request ID</dt>
+            <dd class="mt-1 break-all text-slate-600 dark:text-slate-300">
+              {Astro.locals.requestId}
+            </dd>
+          </div>
+          <div>
+            <dt class="font-bold text-slate-950 dark:text-white">User agent</dt>
+            <dd class="mt-1 break-all text-slate-600 dark:text-slate-300">
+              {userAgent}
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

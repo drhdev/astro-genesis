@@ -1,0 +1,35 @@
+---
+export const prerender = true;
+
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const title = 'Deployment';
+const description = 'Docker, Node adapter, environment variables, and CI.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="bg-white py-16 dark:bg-zinc-950">
+    <div class="prose mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs
+        items={[{ label: 'Docs', href: '/docs' }, { label: title }]}
+      />
+      <h1>{title}</h1>
+      <h2>Docker</h2>
+      <p>
+        Run `docker compose up --build` to build and start the standalone Node
+        server.
+      </p>
+      <h2>Environment</h2>
+      <p>
+        Set `SITE` to the production URL so canonical links, RSS, and sitemap
+        entries are correct.
+      </p>
+      <h2>CI</h2>
+      <p>
+        GitHub Actions installs dependencies, syncs Astro types, runs `astro
+        check`, and builds production output.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

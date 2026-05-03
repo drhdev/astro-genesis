@@ -1,0 +1,35 @@
+---
+title: The garden as a content layer
+description: Why Astro Content Collections are the right default for blogs, docs, case studies, and reusable content models.
+pubDate: 2026-04-18
+author: Genesis Editorial
+tags:
+  - content
+  - mdx
+  - seo
+featured: false
+image:
+  src: https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1400&q=80
+  alt: A green valley with trees and mountains
+---
+
+import Callout from '@components/ui/Callout.astro';
+
+## Ordered growth
+
+The garden image is useful because it is not chaotic growth. It is cultivated. Content-heavy sites need the same care: a schema, a stable URL model, search metadata, feeds, tags, and a way to preview changes locally.
+
+Astro Content Collections provide that structure without forcing a CMS decision. Local MDX works well for templates because it keeps the repository self-contained and easy to update through GitHub.
+
+## Schema as editorial guardrail
+
+Every post in this demo must define a title, description, publication date, tags, author, feature flag, and image metadata. Missing data fails early instead of producing incomplete SEO tags in production.
+
+<Callout title="Replaceable layer" tone="gold">
+  You can later replace local MDX with a build-time loader or live loader
+  without changing the layout contract.
+</Callout>
+
+## Search and feeds
+
+The repository exposes `/api/search.json` for lightweight client-side search indexes and `/rss.xml` for feed readers. Both are generated from the same typed content source.

@@ -1,0 +1,41 @@
+---
+title: Waters above, waters below, and layered architecture
+description: A Genesis-inspired model for separating content, rendering, styling, runtime behavior, and deployment concerns.
+pubDate: 2026-04-14
+author: Genesis Editorial
+tags:
+  - genesis
+  - architecture
+  - ssr
+featured: true
+image:
+  src: https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1400&q=80
+  alt: Mountains reflected in still water under an open sky
+---
+
+import Callout from '@components/ui/Callout.astro';
+
+## The firmament as a boundary
+
+The second day introduces a boundary that makes the world navigable. For a website template, boundaries are equally practical. Content should not be mixed into layout internals. Deployment should not leak into widgets. Dynamic behavior should be local to routes that need it.
+
+Astro Genesis uses these boundaries:
+
+- `src/content` for durable editorial content.
+- `src/data` for structured demo data and navigation.
+- `src/components` for reusable presentation.
+- `src/pages` for route ownership and rendering mode.
+- `docs` for maintenance knowledge.
+
+## Static and dynamic can coexist
+
+Astro 6 makes this especially clean. The repository uses server output with the Node adapter, while most marketing, blog, tag, docs, and legal pages opt into prerendering. Dynamic routes then demonstrate request-aware rendering, Actions, Sessions, and Live Content Collections.
+
+<Callout title="Practical choice" tone="indigo">
+  Server output plus explicit prerendering is the simplest way to demonstrate
+  both static and dynamic behavior in one production-ready Docker artifact.
+</Callout>
+
+## What to change in real projects
+
+Most teams should replace the data and MDX first. Only change routing and shared components when the product truly needs a new information architecture.

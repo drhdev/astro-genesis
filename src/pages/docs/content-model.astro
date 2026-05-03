@@ -1,0 +1,38 @@
+---
+export const prerender = true;
+
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const title = 'Content model';
+const description =
+  'How demo content is separated from reusable template code.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="bg-white py-16 dark:bg-zinc-950">
+    <div class="prose mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs
+        items={[{ label: 'Docs', href: '/docs' }, { label: title }]}
+      />
+      <h1>{title}</h1>
+      <h2>Blog</h2>
+      <p>
+        Blog content lives in `src/content/blog` and is validated by
+        `src/content.config.ts`.
+      </p>
+      <h2>Structured data</h2>
+      <p>
+        Navigation, site metadata, widget content, and Genesis demo data live in
+        `src/data`.
+      </p>
+      <h2>Replacement order</h2>
+      <ol>
+        <li>Update `src/data/site.ts`.</li>
+        <li>Update `src/data/navigation.ts`.</li>
+        <li>Replace `src/content/blog`.</li>
+        <li>Replace page copy and demo data.</li>
+      </ol>
+    </div>
+  </section>
+</BaseLayout>

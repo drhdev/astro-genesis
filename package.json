@@ -1,0 +1,38 @@
+{
+  "name": "astro-genesis",
+  "version": "0.1.0",
+  "description": "A production-ready Astro 6 template demonstrating static, dynamic, content, SEO, and deployment patterns.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev --host 0.0.0.0",
+    "build": "astro build",
+    "preview": "astro preview --host 0.0.0.0",
+    "check": "astro check",
+    "sync": "astro sync",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "upgrade": "npx @astrojs/upgrade"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^5.0.4",
+    "@astrojs/node": "^10.0.6",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.2",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@fontsource/fraunces": "^5.2.9",
+    "@tailwindcss/vite": "4.1.17",
+    "astro": "^6.2.0",
+    "tailwindcss": "4.1.17"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.8",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "typescript": "^5.9.2"
+  },
+  "engines": {
+    "node": ">=22.12.0",
+    "npm": ">=10.0.0"
+  }
+}

@@ -1,0 +1,68 @@
+---
+import { getLiveCollection, getLiveEntry } from 'astro:content';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageSchema } from '@lib/seo';
+
+const title = 'Live Content Collection demo';
+const description =
+  'Request-time content fetched through Astro 6 live collections.';
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+const liveCollection = await getLiveCollection('creationSignals');
+const entries = liveCollection.entries ?? [];
+const liveEntry = await getLiveEntry('creationSignals', 'day-1');
+const entry = liveEntry.entry;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={webPageSchema({ title, description, url })}
+>
+  <section class="bg-white py-16 dark:bg-zinc-950">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs
+        items={[
+          { label: 'Dynamic', href: '/dynamic' },
+          { label: 'Live Collection' },
+        ]}
+      />
+      <div class="mt-8">
+        <SectionHeader
+          eyebrow="Astro 6"
+          title={title}
+          description={description}
+        />
+      </div>
+      {
+        entry && (
+          <div class="mt-10 rounded-md border border-teal-500/30 bg-teal-50 p-6 text-teal-950 dark:bg-teal-950/30 dark:text-teal-50">
+            <p class="text-xs font-bold uppercase">Single live entry</p>
+            <h2 class="mt-2 font-serif text-3xl font-bold">
+              {entry.data.title}
+            </h2>
+            <p class="mt-3 leading-7">{entry.data.summary}</p>
+          </div>
+        )
+      }
+      <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          entries.map((item) => (
+            <article class="rounded-md border border-slate-950/10 bg-slate-50 p-5 dark:border-white/10 dark:bg-zinc-900">
+              <p class="text-xs font-bold uppercase text-cedar dark:text-teal-300">
+                {item.data.phase}
+              </p>
+              <h2 class="mt-2 font-serif text-xl font-bold text-slate-950 dark:text-white">
+                {item.data.title}
+              </h2>
+              <p class="mt-3 text-sm leading-6 text-slate-600 dark:text-slate-300">
+                {item.data.summary}
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</BaseLayout>

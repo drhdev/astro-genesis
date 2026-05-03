@@ -1,0 +1,16 @@
+{
+  "name": "Astro Genesis",
+  "short_name": "Genesis",
+  "description": "A production-ready Astro 6 template.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#0f766e",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "64x64",
+      "type": "image/svg+xml"
+    }
+  ]
+}

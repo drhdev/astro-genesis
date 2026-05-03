@@ -1,0 +1,131 @@
+---
+import { actions, isInputError } from 'astro:actions';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { webPageSchema } from '@lib/seo';
+
+const title = 'Contact action demo';
+const description =
+  'A server Action form with validation, typed inputs, and session state.';
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+const result = Astro.getActionResult(actions.contact);
+const inputErrors = isInputError(result?.error) ? result.error.fields : {};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={webPageSchema({ title, description, url })}
+>
+  <section class="bg-slate-100 py-16 dark:bg-zinc-900">
+    <div
+      class="mx-auto grid max-w-7xl gap-10 px-4 sm:px-6 lg:grid-cols-[0.85fr_1.15fr] lg:px-8"
+    >
+      <div>
+        <Breadcrumbs items={[{ label: 'Contact' }]} />
+        <div class="mt-8">
+          <SectionHeader
+            eyebrow="Actions"
+            title={title}
+            description={description}
+          />
+        </div>
+      </div>
+      <form
+        method="POST"
+        action={actions.contact}
+        class="rounded-md border border-slate-950/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-zinc-950"
+      >
+        {
+          result?.data && (
+            <p class="mb-5 rounded-md bg-teal-50 p-4 text-sm font-semibold text-teal-950 dark:bg-teal-950/40 dark:text-teal-50">
+              Message received for {result.data.name}. Session focus set to{' '}
+              {result.data.focus}.
+            </p>
+          )
+        }
+        {
+          result?.error && !isInputError(result.error) && (
+            <p class="mb-5 rounded-md bg-rose-50 p-4 text-sm font-semibold text-rose-950 dark:bg-rose-950/40 dark:text-rose-50">
+              The action failed. Please try again.
+            </p>
+          )
+        }
+        <div class="grid gap-5">
+          <label
+            class="grid gap-2 text-sm font-bold text-slate-800 dark:text-slate-100"
+          >
+            Name
+            <input
+              name="name"
+              class="rounded-md border border-slate-950/10 bg-white px-4 py-3 text-slate-950 dark:border-white/15 dark:bg-zinc-900 dark:text-white"
+            />
+            {
+              inputErrors.name && (
+                <span class="text-sm font-semibold text-rosewood dark:text-rose-300">
+                  {inputErrors.name}
+                </span>
+              )
+            }
+          </label>
+          <label
+            class="grid gap-2 text-sm font-bold text-slate-800 dark:text-slate-100"
+          >
+            Email
+            <input
+              name="email"
+              type="email"
+              class="rounded-md border border-slate-950/10 bg-white px-4 py-3 text-slate-950 dark:border-white/15 dark:bg-zinc-900 dark:text-white"
+            />
+            {
+              inputErrors.email && (
+                <span class="text-sm font-semibold text-rosewood dark:text-rose-300">
+                  {inputErrors.email}
+                </span>
+              )
+            }
+          </label>
+          <label
+            class="grid gap-2 text-sm font-bold text-slate-800 dark:text-slate-100"
+          >
+            Creation focus
+            <select
+              name="focus"
+              class="rounded-md border border-slate-950/10 bg-white px-4 py-3 text-slate-950 dark:border-white/15 dark:bg-zinc-900 dark:text-white"
+            >
+              <option value="light">Light</option>
+              <option value="waters">Waters</option>
+              <option value="land">Land</option>
+              <option value="stars">Stars</option>
+              <option value="life">Life</option>
+              <option value="humanity">Humanity</option>
+              <option value="rest">Rest</option>
+            </select>
+          </label>
+          <label
+            class="grid gap-2 text-sm font-bold text-slate-800 dark:text-slate-100"
+          >
+            Message
+            <textarea
+              name="message"
+              rows="6"
+              class="rounded-md border border-slate-950/10 bg-white px-4 py-3 text-slate-950 dark:border-white/15 dark:bg-zinc-900 dark:text-white"
+            ></textarea>
+            {
+              inputErrors.message && (
+                <span class="text-sm font-semibold text-rosewood dark:text-rose-300">
+                  {inputErrors.message}
+                </span>
+              )
+            }
+          </label>
+          <button
+            class="rounded-md bg-cedar px-5 py-3 text-sm font-bold text-white hover:bg-teal-800"
+            >Send action</button
+          >
+        </div>
+      </form>
+    </div>
+  </section>
+</BaseLayout>

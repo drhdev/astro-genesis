@@ -1,0 +1,38 @@
+---
+title: 'Day One: Light as the first interface'
+description: How the first act of separation becomes a metaphor for routing, contrast, accessibility, and fast first paint.
+pubDate: 2026-04-10
+updatedDate: 2026-04-30
+author: Genesis Editorial
+tags:
+  - genesis
+  - accessibility
+  - performance
+featured: true
+image:
+  src: https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80
+  alt: Sunlight breaking across a calm landscape
+---
+
+import Callout from '@components/ui/Callout.astro';
+
+## Separation creates meaning
+
+The first day of the Genesis narrative is about contrast before complexity. Light is divided from darkness, and the world becomes readable. A template needs the same discipline: before adding features, it needs clear routes, readable color, stable spacing, and fast first paint.
+
+This post demonstrates MDX inside Astro Content Collections. It uses typed frontmatter, imported Astro components, generated static routes, RSS output, sitemap inclusion, and article metadata.
+
+<Callout title="Template pattern">
+  Keep visual contrast and navigation structure in shared components. Keep story
+  and copy in content files.
+</Callout>
+
+## Astro implementation notes
+
+The page is statically generated through `getStaticPaths()` and `post.render()`. That keeps the article fast and cacheable while still giving authors MDX components and typed content.
+
+The dark mode script runs before paint, so the first frame uses the selected theme instead of flashing between light and dark.
+
+## Production guidance
+
+Replace this post with project content, but keep the schema strict. Frontmatter validation is one of the cheapest ways to keep a large editorial site from degrading over time.

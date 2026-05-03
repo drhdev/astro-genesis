@@ -1,0 +1,135 @@
+---
+export const prerender = true;
+
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { render } from 'astro:content';
+import { getPublishedPosts, getPostReadingTime } from '@lib/content';
+import { articleSchema } from '@lib/seo';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const readingTime = getPostReadingTime(post);
+const canonical =
+  post.data.canonical ?? new URL(`/blog/${post.id}`, Astro.site).toString();
+const jsonLd = articleSchema({
+  title: post.data.title,
+  description: post.data.description,
+  url: canonical,
+  image: post.data.image.src,
+  pubDate: post.data.pubDate,
+  updatedDate: post.data.updatedDate,
+  author: post.data.author,
+});
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.image.src}
+  type="article"
+  canonical={canonical}
+  jsonLd={jsonLd}
+>
+  <article class="bg-white py-16 dark:bg-zinc-950">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs
+        items={[{ label: 'Blog', href: '/blog' }, { label: post.data.title }]}
+      />
+      <div class="mt-8 grid gap-10 lg:grid-cols-[minmax(0,1fr)_18rem]">
+        <div class="min-w-0">
+          <p class="text-sm font-bold uppercase text-cedar dark:text-teal-300">
+            Genesis journal
+          </p>
+          <h1
+            class="mt-4 max-w-4xl font-serif text-4xl font-bold leading-tight text-slate-950 sm:text-6xl dark:text-white"
+          >
+            {post.data.title}
+          </h1>
+          <p
+            class="mt-6 max-w-3xl text-lg leading-8 text-slate-600 dark:text-slate-300"
+          >
+            {post.data.description}
+          </p>
+          <div
+            class="mt-6 flex flex-wrap gap-3 text-sm text-slate-500 dark:text-slate-400"
+          >
+            <time datetime={post.data.pubDate.toISOString()}
+              >{
+                post.data.pubDate.toLocaleDateString('en', {
+                  dateStyle: 'long',
+                })
+              }</time
+            >
+            <span>{readingTime} min read</span>
+            {
+              post.data.updatedDate && (
+                <span>
+                  Updated{' '}
+                  {post.data.updatedDate.toLocaleDateString('en', {
+                    dateStyle: 'medium',
+                  })}
+                </span>
+              )
+            }
+          </div>
+          <img
+            src={post.data.image.src}
+            alt={post.data.image.alt}
+            class="mt-10 aspect-[16/9] w-full rounded-md object-cover"
+          />
+          <div class="prose mt-10">
+            <Content />
+          </div>
+        </div>
+        <aside class="lg:sticky lg:top-24 lg:self-start">
+          <div
+            class="rounded-md border border-slate-950/10 bg-slate-50 p-5 dark:border-white/10 dark:bg-zinc-900"
+          >
+            <h2
+              class="font-serif text-xl font-bold text-slate-950 dark:text-white"
+            >
+              On this page
+            </h2>
+            <ol class="mt-4 grid gap-2">
+              {
+                headings
+                  .filter((heading: { depth: number }) => heading.depth === 2)
+                  .map((heading: { slug: string; text: string }) => (
+                    <li>
+                      <a
+                        href={`#${heading.slug}`}
+                        class="text-sm text-slate-600 no-underline hover:text-cedar dark:text-slate-300 dark:hover:text-teal-300"
+                      >
+                        {heading.text}
+                      </a>
+                    </li>
+                  ))
+              }
+            </ol>
+            <div class="mt-6 flex flex-wrap gap-2">
+              {
+                post.data.tags.map((tag) => (
+                  <a
+                    href={`/tags/${tag}`}
+                    class="rounded-full bg-white px-3 py-1 text-xs font-bold uppercase text-slate-700 no-underline dark:bg-white/10 dark:text-slate-200"
+                  >
+                    {tag}
+                  </a>
+                ))
+              }
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

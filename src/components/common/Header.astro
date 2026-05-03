@@ -1,0 +1,149 @@
+---
+import { navigation } from '@data/navigation';
+import { siteConfig } from '@data/site';
+---
+
+<header
+  class="sticky top-0 z-40 border-b border-slate-950/10 bg-white/88 backdrop-blur dark:border-white/10 dark:bg-zinc-950/88"
+>
+  <nav
+    class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8"
+    aria-label="Primary"
+  >
+    <a
+      href="/"
+      class="flex items-center gap-3 font-serif text-xl font-bold text-slate-950 no-underline dark:text-white"
+    >
+      <span
+        class="grid size-9 place-items-center rounded-md bg-cedar text-sm font-black text-white"
+        >AG</span
+      >
+      <span>{siteConfig.name}</span>
+    </a>
+
+    <button
+      type="button"
+      class="inline-flex size-10 items-center justify-center rounded-md border border-slate-950/10 text-slate-800 lg:hidden dark:border-white/15 dark:text-white"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+      data-menu-button
+    >
+      <span class="sr-only">Toggle menu</span>
+      <svg
+        aria-hidden="true"
+        viewBox="0 0 24 24"
+        class="size-5"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+    </button>
+
+    <div class="hidden items-center gap-1 lg:flex">
+      {
+        navigation.map((item) =>
+          item.children ? (
+            <div class="group relative">
+              <a
+                href={item.href}
+                class="rounded-md px-3 py-2 text-sm font-semibold text-slate-700 no-underline hover:bg-slate-100 hover:text-slate-950 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white"
+              >
+                {item.label}
+              </a>
+              <div class="invisible absolute left-0 top-full w-56 pt-2 opacity-0 transition group-hover:visible group-hover:opacity-100">
+                <div class="rounded-md border border-slate-950/10 bg-white p-2 shadow-xl dark:border-white/10 dark:bg-zinc-900">
+                  {item.children.map((child) => (
+                    <a
+                      href={child.href}
+                      class="block rounded-md px-3 py-2 text-sm font-medium text-slate-700 no-underline hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10"
+                    >
+                      {child.label}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ) : (
+            <a
+              href={item.href}
+              class="rounded-md px-3 py-2 text-sm font-semibold text-slate-700 no-underline hover:bg-slate-100 hover:text-slate-950 dark:text-slate-200 dark:hover:bg-white/10 dark:hover:text-white"
+            >
+              {item.label}
+            </a>
+          ),
+        )
+      }
+      <button
+        type="button"
+        class="ml-2 inline-flex size-10 items-center justify-center rounded-md border border-slate-950/10 text-slate-700 hover:bg-slate-100 dark:border-white/15 dark:text-slate-200 dark:hover:bg-white/10"
+        data-theme-toggle
+      >
+        <span class="sr-only">Toggle dark mode</span>
+        <svg
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          class="size-5"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a6.5 6.5 0 0 0 9.8 9.8Z"></path>
+        </svg>
+      </button>
+    </div>
+  </nav>
+
+  <div
+    id="mobile-menu"
+    class="border-t border-slate-950/10 px-4 py-4 lg:hidden dark:border-white/10"
+    data-menu
+    hidden
+  >
+    <div class="grid gap-2">
+      {
+        navigation.map((item) => (
+          <a
+            href={item.href}
+            class="rounded-md px-3 py-2 font-semibold text-slate-800 no-underline dark:text-slate-100"
+          >
+            {item.label}
+          </a>
+        ))
+      }
+      <button
+        type="button"
+        class="mt-2 rounded-md border border-slate-950/10 px-3 py-2 text-left font-semibold text-slate-800 dark:border-white/15 dark:text-slate-100"
+        data-theme-toggle
+      >
+        Toggle dark mode
+      </button>
+    </div>
+  </div>
+</header>
+
+<script>
+  const storageKey = 'astro-genesis-theme';
+
+  document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const nextTheme = document.documentElement.classList.contains('dark')
+        ? 'light'
+        : 'dark';
+      localStorage.setItem(storageKey, nextTheme);
+      document.documentElement.classList.toggle('dark', nextTheme === 'dark');
+      document.documentElement.dataset.theme = nextTheme;
+    });
+  });
+
+  document
+    .querySelector('[data-menu-button]')
+    ?.addEventListener('click', (event) => {
+      const button = event.currentTarget as HTMLButtonElement;
+      const menu = document.querySelector('[data-menu]') as HTMLElement;
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!expanded));
+      menu.hidden = expanded;
+    });
+</script>

@@ -1,0 +1,47 @@
+---
+export const prerender = true;
+
+import BlogCard from '@components/blog/BlogCard.astro';
+import Breadcrumbs from '@components/ui/Breadcrumbs.astro';
+import SectionHeader from '@components/ui/SectionHeader.astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getAllTags, getPublishedPosts } from '@lib/content';
+import { webPageSchema } from '@lib/seo';
+
+export async function getStaticPaths() {
+  const tags = await getAllTags();
+  return tags.map((tag) => ({ params: { tag } }));
+}
+
+const { tag } = Astro.params;
+const posts = (await getPublishedPosts()).filter((post) =>
+  post.data.tags.includes(tag ?? ''),
+);
+const title = `Posts tagged ${tag}`;
+const description = `All Genesis demo posts tagged ${tag}.`;
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  jsonLd={webPageSchema({ title, description, url })}
+>
+  <section class="bg-slate-100 py-16 dark:bg-zinc-900">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <Breadcrumbs
+        items={[{ label: 'Blog', href: '/blog' }, { label: `Tag: ${tag}` }]}
+      />
+      <div class="mt-8">
+        <SectionHeader
+          eyebrow="Tag archive"
+          title={title}
+          description={description}
+        />
+      </div>
+      <div class="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => <BlogCard post={post} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>
